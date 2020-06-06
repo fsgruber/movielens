@@ -90,13 +90,16 @@ summarize(movies = n_distinct(movieId),
   knitr::kable()
 
 
+#plot user rating matrix. select 50 random user
 set.seed(1984, sample.kind = "Rounding")
 userid <- sample(edx$userId, 50)
 
 edx %>% 
   filter(userId %in% userid) %>%
+  #filter movieId to ensure plot does not get too big
   filter(movieId <=100) %>% 
   select(userId, movieId, rating) %>%
+  
   #recode userId + movieId for plotting
   group_nest(userId) %>%
   mutate(user_id = seq(1, length(userId))) %>%
